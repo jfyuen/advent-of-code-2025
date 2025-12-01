@@ -4,7 +4,7 @@
 (defn read-file [filename process-line]
   (try
     (with-open [rdr (io/reader filename)]
-        (process-line (line-seq rdr)))
+      (process-line (line-seq rdr)))
     (catch java.io.FileNotFoundException e
       (println "Error: File not found -" filename))))
 
@@ -16,8 +16,7 @@
 
 (defn next-number [start value]
   (let [total (+ start value)]
-     (mod total 100)))
-
+    (mod total 100)))
 
 (defn count-zeros [numbers]
   (first
@@ -28,10 +27,24 @@
            [0 50]
            numbers)))
 
+(defn count-hundreds [current-val new-val]
+  (+ (abs (quot new-val 100))
+     (if (and (>= current-val 1) (>= 0 new-val)) 1 0)))
+
+
+(defn count-zeros2 [numbers]
+  (first
+   (reduce (fn [[zeros current-val] n]
+             (let [new-val (+ current-val n)]
+               [(+ zeros (count-hundreds current-val new-val))
+                (next-number current-val n)]))
+           [0 50]
+           numbers)))
+
 (defn -main [& args]
   (let [filename (first args)]
     (read-file filename
                (fn [lines]
                  (let [numbers (keep parse-line lines)
-                       zeros (count-zeros numbers)]
-                     (println "number of zeros:" zeros))))))
+                       zeros (count-zeros2 numbers)]
+                   (println "number of zeros:" zeros))))))
