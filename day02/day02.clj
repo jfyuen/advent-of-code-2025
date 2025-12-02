@@ -18,7 +18,7 @@
                    [start end])) splitted)))
 
 
-(defn is-symetric [n]
+(defn is-symetric1 [n]
   (let [s (str n)
         len (count s)]
     (if (even? len)
@@ -28,8 +28,12 @@
         (if (= part1 part2) n 0))
       0)))
 
+(defn is-symetric2 [n]
+  (let [s (str n)]
+    (if (re-matches #"(\d+)\1+" s) n 0)))
+
 (defn find-symmetric-numbers [a b]
-  (map is-symetric (range a (inc b))))
+  (map is-symetric2 (range a (inc b))))
 
 (defn -main [& args]
   (let [filename (first args)]
