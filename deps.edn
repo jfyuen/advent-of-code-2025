@@ -1,2 +1,2 @@
-{:paths ["day02"]
+{:paths ["day03"]
  :deps {org.clojure/clojure {:mvn/version "1.11.1"}}}
